@@ -5,6 +5,8 @@ import torch
 from pathlib import Path
 from torch.utils.tensorboard import SummaryWriter
 
+import matplotlib.pyplot as plt
+
 def save_model(model: torch.nn.Module,
                target_dir: str,
                model_name: str):
@@ -53,3 +55,22 @@ def create_writer(experiment_name: str,
 
 def set_seeds(seed: int=42):
     torch.manual_seed(42)
+    
+    
+def view_dataloader_images(dataloader, class_names, n=10):
+    if n > 10:
+        print(f"Having n higher than 10 will create messy plots, lowering to 10.")
+        n = 10
+    imgs, labels = next(iter(dataloader))
+    plt.figure(figsize=(16, 8))
+    for i in range(n):
+        # Min max scale the image for display purposes
+        targ_image = imgs[i]
+        sample_min, sample_max = targ_image.min(), targ_image.max()
+        sample_scaled = (targ_image - sample_min)/(sample_max - sample_min)
+
+        # Plot images with appropriate axes information
+        plt.subplot(1, 10, i+1)
+        plt.imshow(sample_scaled.permute(1, 2, 0)) # resize for Matplotlib requirements
+        plt.title(class_names[labels[i]])
+        plt.axis(False)
