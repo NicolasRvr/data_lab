@@ -51,7 +51,5 @@ def create_writer(experiment_name: str,
     print(f"[INFO] Created SummaryWriter, saving to: {log_dir}...")
     return SummaryWriter(log_dir=log_dir)
 
-# Create an example writer
-example_writer = create_writer(experiment_name="data_10_percent",
-                               model_name="effnetb0",
-                               extra="5_epochs")
+def set_seeds(seed: int=42):
+    torch.manual_seed(42)
