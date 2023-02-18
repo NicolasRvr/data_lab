@@ -6,3 +6,4 @@ runs
 *.ipynb
 models/
 *.old
+.DS_Store
